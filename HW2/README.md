@@ -1,4 +1,4 @@
-# Introduction and Overview
+# Assignment 2: Rock & Roll and the Gabor Transform
 
 According to Professors Jason Bramburger and Nathan Kutz, ’Sweet Child
 O’ Mine’ by Guns N’ Roses and ’Comfortably Numb’ by Pink Floyd are two
@@ -32,11 +32,13 @@ Critical to decomposing data into individual frequencies, the Fourier
 transform is at the heart of our understanding. Since our data is not
 continuous, we require the use of the Discrete Fourier Transform, which
 approximates the Fourier Series of the inputted discrete data.
-\[\hat{x_{k}} = \frac{1}{N} \sum_{n=0}^N x_n (\cos{\frac{2\pi kn}{N}} + i\sin{\frac{2\pi kn}{N})} =  \frac{1}{N} \sum_{n=0}^N x_n e^{\frac{2\pi ikn}{N}}
-    \label{eqn:dft}\] This transformation is implemented using the Fast
+
+![\hat{x_{k}} = \frac{1}{N} \sum_{n=0}^N x_n (\cos{\frac{2\pi kn}{N}} + i\sin{\frac{2\pi kn}{N})} =  \frac{1}{N} \sum_{n=0}^N x_n e^{\frac{2\pi ikn}{N}}
+](https://render.githubusercontent.com/render/math?math=%5Clarge+%5Cdisplaystyle+%5Chat%7Bx_%7Bk%7D%7D+%3D+%5Cfrac%7B1%7D%7BN%7D+%5Csum_%7Bn%3D0%7D%5EN+x_n+%28%5Ccos%7B%5Cfrac%7B2%5Cpi+kn%7D%7BN%7D%7D+%2B+i%5Csin%7B%5Cfrac%7B2%5Cpi+kn%7D%7BN%7D%29%7D+%3D++%5Cfrac%7B1%7D%7BN%7D+%5Csum_%7Bn%3D0%7D%5EN+x_n+e%5E%7B%5Cfrac%7B2%5Cpi+ikn%7D%7BN%7D%7D%0A)
+    
+This transformation is implemented using the Fast
 Fourier Transform (FFT), an algorithm for computing the Discrete Fourier
-Transform which performs at a pace of `O(NlogN)` when inputting \(2^n\)
-points. The speed of this algorithm allows us to compute a related
+Transform which performs at a pace of `O(NlogN)` when inputting ![2^n](https://render.githubusercontent.com/render/math?math=%5Clarge+%5Ctextstyle+2%5En) points. The speed of this algorithm allows us to compute a related
 measure, the Gabor Transform. While the Fourier Transform decomposes a
 signal into its corresponding frequencies, information in Fourier space
 lacks any location in time. In order to compensate for this, Hungarian
@@ -44,14 +46,18 @@ physicist Gábor Dénes created a variation of the Fourier Transform by
 filtering the inputted times with a function **g**, which localize the
 transformation around the location of the filter. Given the Fourier
 Transform of a function **f**:
-\[\hat{F}(k)  = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{\infty} 
-    e^{-ikx} f(x) dx
-    \label{eqn:ft}\] The Gabor Transform can be found by multiplying by
-the filter function \(\mathbf{g}\), often a Gaussian:
 
-\[G[f](t, w)  = \int_{-\infty}^{\infty} 
-    f(x) g(x-t) e^{-iwx} dx
-    \label{eqn:ft}\] Because of the speed of the Fast Fourier Transform,
+![\hat{F}(k)  = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{\infty} 
+    e^{-ikx} f(x) dx
+   ](https://render.githubusercontent.com/render/math?math=%5Clarge+%5Cdisplaystyle+%5Chat%7BF%7D%28k%29++%3D+%5Cfrac%7B1%7D%7B%5Csqrt%7B2%5Cpi%7D%7D+%5Cint_%7B-%5Cinfty%7D%5E%7B%5Cinfty%7D+%0A++++e%5E%7B-ikx%7D+f%28x%29+dx%0A+++)
+    
+The Gabor Transform can be found by multiplying by
+the filter function **g**, often a Gaussian:
+
+![G[f](t, w)  = \int_{-\infty}^{\infty} 
+    f(x) g(x-t) e^{-iwx} dx](https://render.githubusercontent.com/render/math?math=%5Clarge+%5Cdisplaystyle+G%5Bf%5D%28t%2C+w%29++%3D+%5Cint_%7B-%5Cinfty%7D%5E%7B%5Cinfty%7D+%0A++++f%28x%29+g%28x-t%29+e%5E%7B-iwx%7D+dx)
+ 
+Because of the speed of the Fast Fourier Transform,
 this transformation can be computed for smaller windows of the data’s
 time frame, across all windows available in the data. This allows us to
 localize the frequencies captured by the FFT to a distinct moment in
@@ -67,7 +73,7 @@ as a vector of amplitudes using the `audioread` command in MATLAB. To
 prepare for using the Fast Fourier Transform, we initialize a vector
 mapping to spectral space, shifting the indices used by the MATLAB
 implementation of the Discrete Fourier Transform, and dividing each
-value to represent the frequencies in Hertz (\(s^{-1}\)).
+value to represent the frequencies in Hertz (![s^{-1}](https://render.githubusercontent.com/render/math?math=%5Clarge+%5Ctextstyle+s%5E%7B-1%7D)).
 
 ## High/Low Pass Filtering
 
@@ -100,10 +106,10 @@ of the desired instrument can be clearly displayed with a spectrogram of
 all of the Fourier transformations through time.
 
 ![The notes of the first two measures of the guitar
-riff.<span label="fig:2brnot"></span>](gnr2bar.png)
+riff.<span label="fig:2brnot"></span>](figures/gnr2bar.png)
 
 ![The notes of the first two measures of the guitar
-riff.<span label="fig:2brnot"></span>](notes2bar.png)
+riff.<span label="fig:2brnot"></span>](figures/notes2bar.PNG)
 
 # Computational Results
 
@@ -113,28 +119,28 @@ clip, a Gaussian filter was created at each time and multiplied by the
 original data. We then applied the Fast Fourier Transform to this
 product, which stored information about the frequencies in the audio
 clip at each time frame. The vectors created at each iteration were then
-saved and plotted in Figure [\[fig:spec\]](#fig:spec). The maximum value
+saved and plotted in Figure 2. The maximum value
 from each vector in Fourier space was saved, representing the most
 prominent frequency heard at a point in time. To ensure we only record
 the frequencies of the guitar, a rectangular filter was later enabled
 using the discovered range of frequencies played by the guitar. These
 values were then plotted to represent the melody of the guitar riff,
 which neatly map up to the actual notes of the song. In
-Figure [\[fig:2br\]](#fig:2br), the first two measures are plotted on a
+Figure 1, the first two measures are plotted on a
 spectrogram, overlaid their respective notes, shown in
-Figure [\[fig:2brnot\]](#fig:2brnot). This main riff is repeated with
+Figure 3. This main riff is repeated with
 differing tonic roots, which follow a progression of (C\#, D\#, F\#,
-C\#). In Figure [\[fig:notful\]](#fig:notful), these differing notes can
+C\#). In Figure 4, these differing notes can
 be found at the beginning of every two measures of the clip, while the
 rest of the notes in the riff are identical.  
 
 ![All notes played by the guitar in this clip. Observe the changing
 tonic note at the beginning of every two
-measures.<span label="fig:notful"></span>](gnrfreq.png)
+measures.<span label="fig:notful"></span>](figures/gnrfreq.PNG)
 
 ![All notes played by the guitar in this clip. Observe the changing
 tonic note at the beginning of every two
-measures.<span label="fig:notful"></span>](notesfull.png)
+measures.<span label="fig:notful"></span>](figures/notesfull.PNG)
 
 We then moved on to the 60 second clip from Comfortably Numb, which
 included a much more complex musical transcription, featuring the song’s
@@ -146,7 +152,7 @@ Hz, or notes ’E’ to ’B’. When this range was targeted using a
 rectangular filter, the bass line was shown to repeat 4 times, mainly
 playing ’B’, and descending to the ’E’ quickly at the end of each
 repetition. This progression can be seen in
-Figures [\[fig:bs\]](#fig:bs) and [\[fig:bn\]](#fig:bn). In order to
+Figures 5 and 6. In order to
 reproduce the isolated bass line in a new audio file, the rectangular
 filter for bass frequencies was applied to the Fourier transform of the
 entire song. When reverted back to the time domain using the `ifft` and
@@ -168,22 +174,22 @@ guitar is playing a B minor chord, most notably consisting of notes B
 and F\#. To counteract these strong notes and their overtones, a very
 specific Gaussian filter was applied to these notes in Fourier space,
 which can be seen by the black horizontal bars in
-Figure [\[fig:filt\]](#fig:filt). This was effective in removing a
+Figure 8. This was effective in removing a
 majority of the rhythm guitar, but also removed crucial notes in the
 guitar solo which shared the same frequencies with the chord and its
 overtones.
 
 ![The notes of the bass line throughout the entire ’Comfortably Numb’
-audio clip.<span label="fig:bn"></span>](bassspec.PNG)
+audio clip.<span label="fig:bn"></span>](figures/bassspec.PNG)
 
 ![The notes of the bass line throughout the entire ’Comfortably Numb’
-audio clip.<span label="fig:bn"></span>](bassnotes.PNG)
+audio clip.<span label="fig:bn"></span>](figures/bassnotes.PNG)
 
 ![The same spectrogram but with major frequencies of the rhythm guitar
-muted.<span label="fig:filt"></span>](nofilt.PNG)
+muted.<span label="fig:filt"></span>](figures/nofilt.PNG)
 
 ![The same spectrogram but with major frequencies of the rhythm guitar
-muted.<span label="fig:filt"></span>](filtered.png)
+muted.<span label="fig:filt"></span>](figures/filtered.png)
 
 # Summary and Conclusions
 
@@ -238,11 +244,3 @@ isolate them.
     elements of `dat`. The index of the maximum value amongst the
     entirety of `dat` is stored at
 `I`.
-
-# MATLAB Code
-
-<span id="listing:examplecode" label="listing:examplecode">\[listing:examplecode\]</span>
-
-<span id="listing:examplecode" label="listing:examplecode">\[listing:examplecode\]</span>
-
-<span id="listing:examplecode" label="listing:examplecode">\[listing:examplecode\]</span>
